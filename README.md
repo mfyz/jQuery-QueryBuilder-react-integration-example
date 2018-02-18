@@ -9,10 +9,10 @@ Use this.defaultQuery for initial query to be rendered with query builder.
 Use this.filters to set filters, display options, validators. See http://querybuilder.js.org/#usage for all configuration options.
 
 ## Demo
-http://malaman.github.io/jQuery-QueryBuilder-react-integration-example/
+https://mfyz.github.io/react-jquery-querybuilder-example/
 
 ## Fork and Changes
-This sample is forked from http://malaman.github.io/jQuery-QueryBuilder-react-integration-example/ with few changes noted below:
+This sample is forked from https://github.com/malaman/jQuery-QueryBuilder-react-integration-example with few changes noted below:
 - Encapsulated everything into a single react component
 - Converted all setters and getters to work with mongo query
 
