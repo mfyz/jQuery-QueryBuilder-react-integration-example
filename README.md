@@ -1,4 +1,4 @@
-# react-mongo-querybuilder
+# React Mongo Query Builder
 Simple [React.js](https://facebook.github.io/react/) application demonstrates integration of [jQuery-QueryBuilder](https://github.com/mistic100/jQuery-QueryBuilder)
 
 ## Usage
