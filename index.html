@@ -19,59 +19,10 @@
 
 				this.state = {
 					rules: {},
-					mongoQuery: {}
+					query: {}
 				};
 
-				this.defaultRules = {
-					condition: 'AND',
-					rules: [{
-						id: 'price',
-						operator: 'less',
-						value: 10.25
-					}, {
-						condition: 'OR',
-						rules: [{
-							id: 'category',
-							operator: 'equal',
-							value: 2
-						}, {
-							id: 'category',
-							operator: 'equal',
-							value: 1
-						}]
-					}]
-				};
-
-				this.defaultMongoQueryToSet = {
-					"$and": [
-						{
-							"price": { "$lt": 10.25 }
-						},
-						{
-							"$or": [
-								{ "category": 1 },
-								{ "category": 2 }
-							]
-						}
-					]
-				}
-			}
-			
-			componentDidMount() {
-				const element = this.refs.queryBuilder;
-				this.initializeQueryBuilder(element);
-			}
-			
-			componentWillUnmount() {
-				$(this.refs.queryBuilder).queryBuilder('destroy');
-			}
-			
-			shouldComponentUpdate() {
-				return false;
-			}
-
-			initializeQueryBuilder(element, newRules) {
-				const filters = [
+				this.filters = [
 					{
 						id: 'name',
 						label: 'Name',
@@ -123,24 +74,54 @@
 						}
 					}
 				];
-				$(element).queryBuilder({ filters });
-				$(element).queryBuilder('setRulesFromMongo', this.defaultMongoQueryToSet);
+
+				this.defaultQuery = {
+					"$and": [
+						{
+							"price": { "$lt": 10.25 }
+						},
+						{
+							"$or": [
+								{ "category": 1 },
+								{ "category": 2 }
+							]
+						}
+					]
+				}
+			}
+			
+			componentDidMount() {
+				const element = this.refs.queryBuilder;
+				this.initializeQueryBuilder(element);
+			}
+			
+			componentWillUnmount() {
+				$(this.refs.queryBuilder).queryBuilder('destroy');
+			}
+			
+			shouldComponentUpdate() {
+				return false;
+			}
+
+			initializeQueryBuilder(element, newRules) {
+				$(element).queryBuilder({ filters: this.filters });
+				$(element).queryBuilder('setRulesFromMongo', this.defaultQuery);
 			}
 			
 			// get data from jQuery Query Builder and pass to the react component
 			handleGetRulesClick() {
 				const rules = $(this.refs.queryBuilder).queryBuilder('getRules');
-				const mongoQuery = $(this.refs.queryBuilder).queryBuilder('getMongo');
+				const query = $(this.refs.queryBuilder).queryBuilder('getMongo');
 				this.setState({
 					rules: rules,
-					mongoQuery: mongoQuery
+					query: query
 				});
 				this.forceUpdate();
 			}
 			
 			// reinitialize jQuery Query Builder based on react state
 			handleSetRulesClick() {
-				const mongoQueryToSet = {
+				const queryToSet = {
 					"$and": [
 						{
 							"price": { "$lt": 12.50 }
@@ -153,11 +134,11 @@
 						}
 					]
 				};
-				$(this.refs.queryBuilder).queryBuilder('setRulesFromMongo', mongoQueryToSet);
+				$(this.refs.queryBuilder).queryBuilder('setRulesFromMongo', queryToSet);
 				const rules = $(this.refs.queryBuilder).queryBuilder('getRules');
 				this.setState({
 					rules: rules,
-					mongoQuery: mongoQueryToSet
+					query: queryToSet
 				});
 			}
 
@@ -177,7 +158,7 @@
 						<div className='row'>
 							<h3>Mongo Query:</h3>
 							<pre>
-								{JSON.stringify(this.state.mongoQuery, undefined, 2)}
+								{JSON.stringify(this.state.query, undefined, 2)}
 							</pre>
 						</div>
 					</div>
